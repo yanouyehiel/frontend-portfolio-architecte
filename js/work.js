@@ -12,7 +12,7 @@ const contentWorks = document.querySelector('section .gallery')
 
 async function displayWorks(works) {
     try {
-        /*works.map((work, i) => {
+        works.map((work, i) => {
             //construction des balises figure et img
             const figure = document.createElement('figure')
             const img = document.createElement('img')
@@ -31,29 +31,8 @@ async function displayWorks(works) {
 
             //Chargement des balises figure dans la div.gallery
             contentWorks.appendChild(figure)
-        })*/
-        
-        for (let index = 0; index < works.length; index++) {
-            //construction des balises figure et img
-            const figure = document.createElement('figure')
-            const img = document.createElement('img')
-
-            //chargement de la valeur des attributs src de alt de img
-            img.src = works[index].imageUrl
-            img.alt = works[index].title
-
-            //chargement de la valeur de figcaption
-            const figcaption = document.createElement('figcaption')
-            figcaption.innerHTML = works[index].title
-
-            //Chargement de img dans figure
-            figure.appendChild(img)
-            figure.appendChild(figcaption)
-
-            //Chargement des balises figure dans la div.gallery
-            contentWorks.appendChild(figure)
-            
-        }
+        })
+    
         //Chargement de la div.gallery dans la section#portfolio
         sectionWorks.appendChild(contentWorks)
     } catch (error) {
