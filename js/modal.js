@@ -27,6 +27,13 @@ async function displayModalWorks(works) {
             const iContent = document.createElement('i')
             iContent.classList.add('fa')
             iContent.classList.add('fa-trash-o')
+            divTrash.style.cursor = 'pointer'
+            divTrash.addEventListener('click', function() { 
+                const confirmDelete = confirm("Voulez-vous vraiment supprimer ce travail ?")
+                if (confirmDelete) {
+                    deleteWork(work.id)
+                }
+            })
             divTrash.appendChild(iContent)
 
             //Chargement de img dans figure
@@ -81,7 +88,7 @@ async function displayCategories() {
         for (let i = 0; i < categories.length; i++) {
             const category = categories[i];
             const option = document.createElement('option')
-            option.value = category.name
+            option.value = category.id
             option.textContent = category.name
             selectCategories.appendChild(option)
         }
@@ -93,31 +100,20 @@ async function displayCategories() {
 
 displayCategories()
 
-const buttonSubmit = document.querySelector('input#add-picture')
-const titleForm = document.querySelector('input#title-form')
-const formAddPicture = document.querySelector('form.form-add-picture')
-
-formAddPicture.addEventListener('submit', async function(e) {
-    e.preventDefault()
-    const title = titleForm.value
-    const selectedValue = selectCategories.value
-    await submitNewWork('', title, selectedValue)
-})
-
-async function submitNewWork(image, title, category) {
+async function deleteWork(id) {
     try {
-        const payload = {image, title, category}
-        const response = fetch('http://localhost:5678/api/works', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(payload)
+        const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${JSON.parse(token)}`
+            }
         })
-        const data = await response.json()
-        if (data) {
-            contentModal2.classList.add('visible')
+        if (response.ok) {
+            console.log("Travail supprimé avec succès", response.json())
             window.location.reload()
         }
     } catch (error) {
-        
+        console.log("Une erreur est survenue lors de la suppression du travail : ", error)
     }
 }

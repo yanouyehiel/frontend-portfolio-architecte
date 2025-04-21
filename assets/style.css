@@ -352,4 +352,9 @@ button#addPicture {
 	display: inline-block !important;
 	justify-content: center !important;
 	align-items: center !important;
+	cursor: pointer;
+	position: relative;
+}
+input#fileInput {
+	display: none;
 }
